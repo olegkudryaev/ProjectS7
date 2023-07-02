@@ -1,6 +1,5 @@
 package com.projects7.service;
 
-import com.projects7.dao.PersonFriendsRepository;
 import com.projects7.dao.PersonRepository;
 import com.projects7.dto.PersonDto;
 import com.projects7.dto.PersonDtoInput;
@@ -15,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -42,28 +40,9 @@ public class PersonDetailsService implements UserDetailsService{
         return PersonDetails.builder().person(person).build();
     }
 
-    public String authorization(PersonDtoInput personDtoInput) {
-        Person person = personRepository.findByUsername(personDtoInput.getUsername()).orElseThrow(() -> {
-            throw new UsernameNotFoundException("User not found");
-        });
-        if (person.getPassword().equals(personDtoInput.getPassword())){
-            getToken(person.getId());
-            return getToken(person.getId());
-        }
-        return null;
-    }
 
-    private String getToken(UUID id) {
-        Date now = new Date();
-        Date expiryDate = new Date(now.getTime() + 86400000);
-        String token = Jwts.builder()
-                .setSubject(id.toString())
-                .setIssuedAt(now)
-                .setExpiration(expiryDate)
-                .signWith(SignatureAlgorithm.HS256, secretKey)
-                .compact();
-        return token;
-    }
+
+
     
     public PersonDtoWrapped findPersonByUsername(String token, String userName) throws Exception {
         try {
@@ -78,8 +57,6 @@ public class PersonDetailsService implements UserDetailsService{
             throw e;
         }
     }
-
-
 
     public String validateToken(String token) throws Exception {
         try {

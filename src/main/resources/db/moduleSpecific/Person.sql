@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS public."person"
 (
     "id" uuid NOT NULL,
     "username" varchar(20) NOT NULL,
-    "password" varchar(20) NOT NULL,
+    "password" text NOT NULL,
     "role" varchar(32) NOT NULL,
     CONSTRAINT "person_PK" PRIMARY KEY ("id")
 );

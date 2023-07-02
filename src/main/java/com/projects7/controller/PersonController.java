@@ -92,7 +92,7 @@ public class PersonController {
             @RequestBody PersonDtoInput personDtoInput
     ) {
         String result = null;
-        result = personDetailsService.authorization(personDtoInput);
+        result = registrationService.authorization(personDtoInput);
         return new ResponseEntity<>(result, result == null ? HttpStatus.BAD_REQUEST : HttpStatus.CREATED);
     }
 
